@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 
 namespace WebApplication1.API.Controllers
 {
-    [Route("api/[controller]")]  // modifies the address
+    [Authorize]
+    [Route("api/[controller]")]  // modifies the address for this specific controller
     [ApiController]
     public class ValuesController : ControllerBase
     {
@@ -27,6 +29,7 @@ namespace WebApplication1.API.Controllers
         }
 
         // GET values/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
         {
