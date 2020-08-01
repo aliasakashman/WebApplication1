@@ -20,6 +20,7 @@ namespace WebApplication1.API.Controllers
             _context = context;
         }
         // GET values
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetValues() // made async meaning it don't block the thread when someone makes a request. Imagine 100 people trying to access at one while waiting for a response
         {

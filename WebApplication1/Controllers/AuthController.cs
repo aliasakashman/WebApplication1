@@ -10,21 +10,51 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Controllers
 {
+    
     [Route("api/[controller]")]  // modifies the address
     [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo, IConfiguration config)
+
+        private readonly DataContext _context;
+
+        public AuthController(IAuthRepository repo)
         {
-            _config = config;
             _repo = repo;
         }
 
+
+       
+       // public AuthController(DataContext context)
+       // {
+       //     _context = context;
+       // }
+
+
+
+        // [AllowAnonymous]
+        //  [HttpGet]
+        //  public async Task<IActionResult> GetValues() // made async meaning it don't block the thread when someone makes a request. Imagine 100 people trying to access at one while waiting for a response
+        //  {
+        //     var values = await _context.Users.ToListAsync();  // await built in functionality however tolist async is a part of entity framework
+
+        //      return Ok(values);
+        // }
+
+
+
+
+
+
+
+        
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
