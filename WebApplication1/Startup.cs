@@ -20,6 +20,7 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using WebApplication1.Helpers;
+using AutoMapper;
 
 namespace WebApplication1
 {
@@ -36,9 +37,14 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));// default connection defined in appsettings.json
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(opt =>
+            {opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;});
+
+
             services.AddCors();
+            services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>(); // this is adding our interface and define class function Auth to our services
+            services.AddScoped<IDatingRepository, DatingRepository>();
 
             //Authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
